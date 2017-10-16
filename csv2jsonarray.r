@@ -16,7 +16,7 @@ filenames <- c(
 
 for (filename in filenames){
   schedulings <- read.csv(paste(datasetsRootDir, filename, sep=""));
-  translationFile <- file(paste(translationsRootDir, filename, sep=""));
+  translationFile <- file(paste(translationsRootDir, filename, ".json", sep=""));
   lines <- character()
   
   identation <- paste(replicate(7, "  "), collapse="");
