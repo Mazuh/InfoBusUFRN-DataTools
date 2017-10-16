@@ -14,43 +14,36 @@ filenames <- c(
   "inverso_ru.csv"
 );
 
-
-translatedFile<-file("output.txt");
-writeLines(c("Hello","World"), translatedFile);
-close(translatedFile);
-
-schedulings <- read.csv(paste(datasetsRootDir, filenames[1]), sep="");
-
-identation <- paste(replicate(7, "  "), collapse="");
-
-
-for(i in 1:nrow(schedulings)) {
-  hour <- schedulings[i, 1];
-  
-  if (as.numeric(hour) < 10){
-    hour <- paste("0", hour, sep="");
-  }
-  
-  for (min_op in schedulings[i, 2:ncol(schedulings)]){
-    if (!is.na(min_op)){
-      
-      if (as.numeric(min_op) < 10){
-        min_op <- paste("0", min_op, sep="");
-      }
-      
-      print(paste(
-        identation,
-        "{\"time\": \"",
-        hour, ":", min_op,
-        "\"},",
-        sep=""
-      ));
-      
-      }
-  }
-}
-
 for (filename in filenames){
-  schedulings = read.csv(filename);
-  paste(paste(replicate(2, "  "), collapse=""), "ok", sep="");
+  schedulings <- read.csv(paste(datasetsRootDir, filename, sep=""));
+  translationFile <- file(paste(translationsRootDir, filename, sep=""));
+  lines <- character()
+  
+  identation <- paste(replicate(7, "  "), collapse="");
+  
+  for(i in 1:nrow(schedulings)) {
+    hour <- schedulings[i, 1];
+    
+    if (as.numeric(hour) < 10){
+      hour <- paste("0", hour, sep="");
+    }
+    
+    for (min_op in schedulings[i, 2:ncol(schedulings)]){
+      if (!is.na(min_op)){
+        
+        if (as.numeric(min_op) < 10){
+          min_op <- paste("0", min_op, sep="");
+        }
+        
+        lines <- c(lines, paste(identation, "{\"time\": \"", hour, ":", min_op, "\"},", sep=""));
+        
+      }
+    }
+  }
+  
+  writeLines(lines, translationFile);
+  close(translationFile);
+  
+  print(paste("`", filename, "` translated.", sep=""));
+  
 }
