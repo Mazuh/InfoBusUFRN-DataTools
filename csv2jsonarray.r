@@ -1,19 +1,28 @@
 # Converts those csv into json arrays, also concatenating hours with minutes.
 
+datasetsRootDir = "./schedules_datasets/";
+translationsRootDir = "./generated/";
+
 filenames <- c(
-  "./schedules_datasets/direto_ru.csv",
-  "./schedules_datasets/expresso_ru_cet_vd.csv",
-  "./schedules_datasets/expresso_ru_reitoria_vd.csv",
-  "./schedules_datasets/expresso_vd_cet_ru.csv",
-  "./schedules_datasets/expresso_vd_cet.csv",
-  "./schedules_datasets/expresso_vd_reitoria_ru.csv",
-  "./schedules_datasets/expresso_vd_reitoria.csv",
-  "./schedules_datasets/inverso_ru.csv"
+  "direto_ru.csv",
+  "expresso_ru_cet_vd.csv",
+  "expresso_ru_reitoria_vd.csv",
+  "expresso_vd_cet_ru.csv",
+  "expresso_vd_cet.csv",
+  "expresso_vd_reitoria_ru.csv",
+  "expresso_vd_reitoria.csv",
+  "inverso_ru.csv"
 );
 
-schedulings <- read.csv(filenames[1]);
+
+translatedFile<-file("output.txt");
+writeLines(c("Hello","World"), translatedFile);
+close(translatedFile);
+
+schedulings <- read.csv(paste(datasetsRootDir, filenames[1]), sep="");
 
 identation <- paste(replicate(7, "  "), collapse="");
+
 
 for(i in 1:nrow(schedulings)) {
   hour <- schedulings[i, 1];
